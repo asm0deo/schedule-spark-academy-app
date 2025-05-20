@@ -27,7 +27,7 @@ const Index: React.FC = () => {
   return (
     <ScheduleProvider>
       <div className="container mx-auto max-w-4xl px-4 py-8 animate-fade-in">
-        <Header title="Spark Academy" />
+        <Header title="Prope Clases" />
         
         <div className="mb-8">
           <h2 className="text-lg text-muted-foreground mb-6">

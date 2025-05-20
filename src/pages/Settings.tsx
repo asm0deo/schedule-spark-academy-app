@@ -24,7 +24,7 @@ const Settings: React.FC = () => {
           <NotificationSettings />
           
           <div className="text-center text-sm text-muted-foreground">
-            <p>Spark Academy - Versión 1.0.0</p>
+            <p>Prope Clases - Versión 1.0.0</p>
           </div>
         </div>
       </div>
