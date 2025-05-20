@@ -20,14 +20,22 @@ const IndexContent: React.FC = () => {
   const { schedule, updateDaySchedule } = useSchedule();
 
   useEffect(() => {
-    // Comprobar si hay horarios configurados
-    const hasConfiguredSchedules = Object.values(schedule).some(
-      (day) => day.classes && day.classes.length > 0
-    );
+    // Check if we've already shown the preset dialog before
+    const presetLoaded = localStorage.getItem("schedulePresetLoaded");
     
-    if (!hasConfiguredSchedules) {
-      // Si no hay horarios configurados, mostrar el diálogo
-      setShowPresetDialog(true);
+    if (presetLoaded !== "true") {
+      // Check if there are any configured schedules
+      const hasConfiguredSchedules = Object.values(schedule).some(
+        (day) => day.classes && day.classes.length > 0
+      );
+      
+      if (!hasConfiguredSchedules) {
+        // If no schedules are configured and dialog hasn't been shown, show it
+        setShowPresetDialog(true);
+      } else {
+        // If schedules exist, mark as loaded so we don't show the dialog again
+        localStorage.setItem("schedulePresetLoaded", "true");
+      }
     }
   }, [schedule]);
 

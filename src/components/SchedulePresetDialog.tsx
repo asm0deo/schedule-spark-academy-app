@@ -31,6 +31,16 @@ const SchedulePresetDialog: React.FC<SchedulePresetDialogProps> = ({
       title: "Horarios cargados",
       description: "Los horarios del G3 han sido cargados correctamente.",
     });
+    
+    // Mark that we've loaded the preset schedule
+    localStorage.setItem("schedulePresetLoaded", "true");
+    
+    onOpenChange(false);
+  };
+
+  const handleCancel = () => {
+    // Even if they cancel, we don't want to show the dialog again
+    localStorage.setItem("schedulePresetLoaded", "true");
     onOpenChange(false);
   };
 
@@ -44,7 +54,7 @@ const SchedulePresetDialog: React.FC<SchedulePresetDialogProps> = ({
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancelar</AlertDialogCancel>
+          <AlertDialogCancel onClick={handleCancel}>Cancelar</AlertDialogCancel>
           <AlertDialogAction onClick={handleConfirm}>Aceptar</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

@@ -20,10 +20,49 @@ const SettingsContent: React.FC = () => {
       title: "Horarios cargados",
       description: "Los horarios del G3 han sido cargados correctamente.",
     });
+    
+    // Mark that we've loaded the preset schedule
+    localStorage.setItem("schedulePresetLoaded", "true");
   };
   
   const sendTestNotification = () => {
-    // Esta función enviará una notificación de prueba
+    // Check if we're in a Capacitor environment (native app)
+    if (window.Capacitor && window.Capacitor.isNativePlatform()) {
+      // Try to use the native notification
+      try {
+        // @ts-ignore - The LocalNotifications might not be imported but should be available at runtime
+        if (window.Capacitor.Plugins.LocalNotifications) {
+          window.Capacitor.Plugins.LocalNotifications.schedule({
+            notifications: [
+              {
+                title: "Prope - Clases",
+                body: "Tienes clase de Física a las 08:00 – 09:30",
+                id: 1,
+                schedule: { at: new Date(Date.now() + 1000) },
+                smallIcon: "notification_icon",
+                channelId: "default",
+              },
+            ],
+          });
+          
+          toast({
+            title: "Notificación enviada",
+            description: "Se ha enviado una notificación de prueba.",
+          });
+        } else {
+          fallbackNotification();
+        }
+      } catch (error) {
+        console.error("Error sending native notification:", error);
+        fallbackNotification();
+      }
+    } else {
+      fallbackNotification();
+    }
+  };
+  
+  // Fallback to browser notifications if native ones aren't available
+  const fallbackNotification = () => {
     if ("Notification" in window) {
       Notification.requestPermission().then(permission => {
         if (permission === "granted") {
